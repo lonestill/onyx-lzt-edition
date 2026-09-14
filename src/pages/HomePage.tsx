@@ -4,10 +4,8 @@ import {
   ArrowRight,
   Folder,
   FolderOpen,
-  LoaderCircle,
   Play,
   Plus,
-  Radio,
   Server,
   Settings,
   ShieldAlert,
@@ -16,7 +14,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { useI18n } from "../i18n";
-import type { GameInstance, MinecraftServerStatus, PlaySession, RouteId } from "../types";
+import type { GameInstance, PlaySession, RouteId } from "../types";
 import { formatPlaytime } from "../utils";
 
 interface HomePageProps {
@@ -52,9 +50,6 @@ export function HomePage({
           : t("home.greeting.evening");
 
   const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
-  const [quickServer, setQuickServer] = useState("");
-  const [pingResult, setPingResult] = useState<MinecraftServerStatus | null>(null);
-  const [pinging, setPinging] = useState(false);
 
   const activeInstance =
     instances.find((instance) => instance.id === selectedInstanceId) ??
@@ -83,40 +78,6 @@ export function HomePage({
   const isSetup = activeInstance?.status === "setup" || activeInstance?.status === "pack-ready";
   const isError = activeInstance?.status === "error";
 
-  const handlePingServer = async () => {
-    if (!quickServer.trim() || pinging) return;
-    setPinging(true);
-    try {
-      const res = await window.onyx.system.serverStatus(quickServer.trim());
-      setPingResult(res);
-    } catch {
-      setPingResult({ online: false, address: quickServer.trim() });
-    } finally {
-      setPinging(false);
-    }
-  };
-
-  const handleJoinServer = async () => {
-    if (!quickServer.trim() || !activeInstance) return;
-    try {
-      await window.onyx.state.updateInstance(activeInstance.id, {
-        settings: {
-          ...activeInstance.settings,
-          serverAddress: quickServer.trim(),
-        },
-      });
-      const updated: GameInstance = {
-        ...activeInstance,
-        settings: {
-          ...activeInstance.settings,
-          serverAddress: quickServer.trim(),
-        },
-      };
-      onPlay(updated);
-    } catch {
-      onPlay(activeInstance);
-    }
-  };
 
   return (
     <motion.div
@@ -309,7 +270,7 @@ export function HomePage({
         </div>
 
         <div className="recent-grid">
-          {instances.slice(0, 7).map((instance, index) => {
+          {instances.slice(0, 3).map((instance, index) => {
             const isCurrent = instance.id === activeInstance?.id;
             return (
               <motion.article
@@ -368,70 +329,6 @@ export function HomePage({
               <small>{t("home.newHint")}</small>
             </span>
           </button>
-        </div>
-      </section>
-
-      <section className="ops-grid ops-grid--single">
-        <div className="ops-card ops-card--server">
-          <div className="ops-card__head">
-            <div className="ops-card__icon">
-              <Radio size={16} />
-            </div>
-            <div className="ops-card__titles">
-              <strong>Quick Join</strong>
-              <span>Direct multiplayer launch</span>
-            </div>
-          </div>
-          <div className="ops-card__body">
-            <div className="quick-join-form">
-              <div className="quick-join-input-shell">
-                <Server size={14} />
-                <input
-                  type="text"
-                  placeholder="mc.hypixel.net"
-                  value={quickServer}
-                  onChange={(event) => setQuickServer(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter") void handleJoinServer();
-                  }}
-                />
-                {quickServer && (
-                  <button
-                    type="button"
-                    className="quick-join-ping-btn"
-                    onClick={() => void handlePingServer()}
-                    disabled={pinging}
-                  >
-                    {pinging ? <LoaderCircle size={12} className="spin" /> : "Ping"}
-                  </button>
-                )}
-              </div>
-              {pingResult && (
-                <div className="quick-join-status">
-                  <span
-                    className={`status-dot ${
-                      pingResult.online ? "status-dot--online" : "status-dot--offline"
-                    }`}
-                  />
-                  <span>
-                    {pingResult.online
-                      ? `${pingResult.latencyMs ?? 0}ms · ${pingResult.playersOnline ?? 0} online`
-                      : "Server offline or unreachable"}
-                  </span>
-                </div>
-              )}
-            </div>
-            <div className="ops-card__footer">
-              <button
-                className="button button--secondary button--full"
-                onClick={() => void handleJoinServer()}
-                disabled={!quickServer.trim() || isRunning}
-              >
-                <Play size={13} fill="currentColor" />
-                Connect & Play
-              </button>
-            </div>
-          </div>
         </div>
       </section>
     </motion.div>

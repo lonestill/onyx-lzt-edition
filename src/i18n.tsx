@@ -35,6 +35,7 @@ const en = {
   "nav.label": "LAUNCHER",
   "nav.home": "Home",
   "nav.library": "Library",
+  "nav.lolzmc": "LolzMC",
   "nav.discover": "Discover",
   "nav.downloads": "Downloads",
   "nav.skins": "Profiles & skins",

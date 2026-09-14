@@ -151,6 +151,23 @@ const DEFAULT_STATE = {
   },
   instances: [
     {
+      id: "lolzmc-official",
+      name: "Lolzteam Craft",
+      version: "1.21.4",
+      loader: "Fabric",
+      description: "Official server with PlasmoVoice",
+      color: "lime",
+      glyph: "LZ",
+      favorite: true,
+      status: "setup",
+      lastPlayed: "Never played",
+      playtimeMinutes: 0,
+      modCount: 0,
+      settings: {
+        serverAddress: "mc.lolz.games",
+      },
+    },
+    {
       id: "vanilla-start",
       name: "Pure Game",
       version: "1.21.1",
@@ -158,7 +175,7 @@ const DEFAULT_STATE = {
       description: "Minecraft without modifications",
       color: "lime",
       glyph: "MC",
-      favorite: true,
+      favorite: false,
       status: "setup",
       lastPlayed: "Never played",
       playtimeMinutes: 0,
@@ -361,6 +378,25 @@ async function loadState() {
   }
   if (!state.settings.anonymousClientId) {
     state.settings.anonymousClientId = telemetryService.ensureAnonymousId();
+  }
+  if (!state.instances.some((instance) => instance.id === "lolzmc-official")) {
+    state.instances.unshift({
+      id: "lolzmc-official",
+      name: "Lolzteam Craft",
+      version: "1.21.4",
+      loader: "Fabric",
+      description: "Official server with PlasmoVoice",
+      color: "lime",
+      glyph: "LZ",
+      favorite: true,
+      status: "setup",
+      lastPlayed: "Never played",
+      playtimeMinutes: 0,
+      modCount: 0,
+      settings: {
+        serverAddress: "mc.lolz.games",
+      },
+    });
   }
   for (const instance of state.instances) {
     if (instance.id === "vanilla-start") {
@@ -2091,6 +2127,21 @@ function registerIpc() {
   ipcMain.handle("system:server-status", (_event, address) =>
     pingMinecraftServer(address),
   );
+  ipcMain.handle("system:lolzmc-status", async () => {
+    try {
+      const res = await fetch("https://lolz.games/api/lolzmc/servers/status", {
+        headers: {
+          "user-agent": "Mozilla/5.0 OnyxLauncher/1.6.11 (LZT-Edition)",
+          accept: "application/json",
+        },
+      });
+      if (!res.ok) return null;
+      const json = await res.json();
+      return json?.data || null;
+    } catch {
+      return null;
+    }
+  });
   ipcMain.handle("system:diagnostics", () => buildDiagnostics());
   ipcMain.handle("system:export-diagnostics", async () => {
     const diagnostics = await buildDiagnostics();

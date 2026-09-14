@@ -68,6 +68,11 @@ const SettingsPage = lazy(() =>
     default: module.SettingsPage,
   })),
 );
+const LolzmcPage = lazy(() =>
+  import("./pages/LolzmcPage").then((module) => ({
+    default: module.LolzmcPage,
+  })),
+);
 const InstancePage = lazy(() =>
   import("./pages/InstancePage").then((module) => ({
     default: module.InstancePage,
@@ -1183,6 +1188,18 @@ export default function App() {
             onAccount={() => setAccountOpen(true)}
             onNotify={(tone, title, message) =>
               pushToast(tone, title, message, 6200)
+            }
+          />
+        );
+      case "lolzmc":
+        return (
+          <LolzmcPage
+            instances={state.instances}
+            onPlay={(instance) => void play(instance)}
+            onNavigate={setRoute}
+            onOpen={openInstance}
+            onNotify={(tone, title, message) =>
+              pushToast(tone, title, message, 5000)
             }
           />
         );

@@ -5,6 +5,7 @@ export type RouteId =
   | "downloads"
   | "instance"
   | "skins"
+  | "lolzmc"
   | "settings";
 
 export type Accent = "lime" | "violet" | "cyan";
@@ -849,6 +850,7 @@ export interface OnyxBridge {
     ): Promise<InstanceResourceRecommendation>;
     fpsRecorderStatus(): Promise<FpsRecorderStatus>;
     serverStatus(address: string): Promise<MinecraftServerStatus>;
+    lolzmcStatus(): Promise<LolzmcData | null>;
     diagnostics(): Promise<SystemDiagnostics>;
     exportDiagnostics(): Promise<string | null>;
     clearCache(): Promise<{ bytes: number; files: number }>;
@@ -1031,3 +1033,26 @@ export interface OnyxBridge {
     callback: (progress: MigrationProgress) => void,
   ): () => void;
 }
+
+export interface LolzmcServerItem {
+  name: string;
+  description: string;
+  is_online: boolean;
+  tps: number | null;
+  online_players: number;
+  players: string[];
+  total_players: number;
+  sessions: number;
+  playtime_ms: number;
+}
+
+export interface LolzmcData {
+  total_players: number;
+  sessions: number;
+  playtime_ms: number;
+  mob_kills: number;
+  player_kills: number;
+  deaths: number;
+  servers: LolzmcServerItem[];
+}
+

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Maximize2, Minus, Search, Square, X } from "lucide-react";
+import { LolzteamIcon } from "./LolzteamIcon";
 import { useI18n } from "../i18n";
 
 interface TitleBarProps {
@@ -23,6 +24,10 @@ export function TitleBar({ onSearch }: TitleBarProps) {
           <b />
         </span>
         <span>ONYX</span>
+        <span className="lzt-badge">
+          <LolzteamIcon size={12} color="#2BAD72" />
+          <span>LZT EDITION</span>
+        </span>
       </div>
 
       <button className="titlebar__search no-drag" onClick={onSearch}>

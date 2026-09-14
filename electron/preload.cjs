@@ -96,6 +96,7 @@ contextBridge.exposeInMainWorld("onyx", {
       ipcRenderer.invoke("system:fps-recorder-status"),
     serverStatus: (address) =>
       ipcRenderer.invoke("system:server-status", address),
+    lolzmcStatus: () => ipcRenderer.invoke("system:lolzmc-status"),
     diagnostics: () => ipcRenderer.invoke("system:diagnostics"),
     exportDiagnostics: () => ipcRenderer.invoke("system:export-diagnostics"),
     clearCache: () => ipcRenderer.invoke("system:clear-cache"),

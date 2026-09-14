@@ -6,16 +6,19 @@ import {
   Library,
   Settings,
 } from "lucide-react";
+import type { ElementType } from "react";
+import { LolzteamIcon } from "./components/LolzteamIcon";
 import type { TranslationKey } from "./i18n";
 import type { CatalogProject, RouteId } from "./types";
 
 export const navigation: Array<{
   id: RouteId;
   labelKey: TranslationKey;
-  icon: typeof Home;
+  icon: ElementType;
 }> = [
   { id: "home", labelKey: "nav.home", icon: Home },
   { id: "library", labelKey: "nav.library", icon: Library },
+  { id: "lolzmc", labelKey: "nav.lolzmc", icon: LolzteamIcon },
   { id: "discover", labelKey: "nav.discover", icon: Compass },
   { id: "downloads", labelKey: "nav.downloads", icon: Download },
   { id: "skins", labelKey: "nav.skins", icon: ImageIcon },

@@ -47,7 +47,7 @@ export function SkinsPage({ profile, onAccount, onNotify }: SkinsPageProps) {
   const [skinVariant, setSkinVariant] = useState<'classic' | 'slim'>('classic');
   const [animationMode, setAnimationMode] = useState<SkinAnimationName>('idle');
   const [equipmentType, setEquipmentType] = useState<'cape' | 'elytra'>('cape');
-  const [selectedCapeId, setSelectedCapeId] = useState<string>('onyx');
+  const [selectedCapeId, setSelectedCapeId] = useState<string>('lolzteam');
   const [customCapeUrl, setCustomCapeUrl] = useState<string | null>(null);
   const [layers, setLayers] = useState<SkinLayers>({
     hat: true,

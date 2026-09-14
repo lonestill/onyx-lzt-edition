@@ -130,6 +130,41 @@ function createCapeCanvas(
 
 export const CAPE_PRESETS: CapePreset[] = [
   {
+    id: 'lolzteam',
+    name: '✦ Lolzteam Emerald',
+    type: 'preset',
+    getDataUrl: () =>
+      createCapeCanvas(
+        '#0c0f0e',
+        '#2BAD72',
+        (ctx, ox, oy) => {
+          // Lolzteam official eye emblem in pixel art on 10x16 back
+          ctx.fillStyle = '#2BAD72';
+          // Eyelashes crown
+          ctx.fillRect(ox + 1, oy + 4, 1, 3);
+          ctx.fillRect(ox + 3, oy + 3, 1, 4);
+          ctx.fillRect(ox + 5, oy + 2, 1, 5);
+          ctx.fillRect(ox + 7, oy + 3, 1, 4);
+          ctx.fillRect(ox + 8, oy + 4, 1, 3);
+          // Lower eye curve
+          ctx.fillRect(ox + 2, oy + 9, 6, 1);
+          ctx.fillRect(ox + 3, oy + 10, 4, 1);
+          // Center pupil
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(ox + 4, oy + 7, 2, 2);
+          ctx.fillStyle = '#2BAD72';
+          ctx.fillRect(ox + 4, oy + 7, 1, 1);
+        },
+        {
+          base: '#111615',
+          rim: '#2BAD72',
+          ribs: '#1e2725',
+          highlight: '#2BAD72',
+          backBase: '#080808',
+        },
+      ),
+  },
+  {
     id: 'none',
     name: 'No Cape',
     type: 'preset',

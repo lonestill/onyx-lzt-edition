@@ -905,7 +905,7 @@ class MinecraftService {
     };
     const variables = {
       natives_directory: nativesDirectory,
-      launcher_name: "onyx-launcher",
+      launcher_name: "onyx-lzt",
       launcher_version: ONYX_VERSION,
       classpath,
       classpath_separator: path.delimiter,
@@ -946,6 +946,8 @@ class MinecraftService {
       "-XX:+UseG1GC",
       "-Dfile.encoding=UTF-8",
       "-Djava.net.preferIPv4Stack=true",
+      "-Dminecraft.launcher.brand=onyx-lzt",
+      "-Donyx.edition=lolzteam",
     );
     if (version.logging?.client?.argument && version.logging?.client?.file?.id) {
       jvmArguments.push(
